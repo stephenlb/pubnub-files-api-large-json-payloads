@@ -33,7 +33,8 @@ function PubNubFilesApp() {
         items: [
             { id: 1, name: 'Item 1', value: Math.random() * 100 },
             { id: 2, name: 'Item 2', value: Math.random() * 100 },
-            { id: 3, name: 'Item 3', value: Math.random() * 100 }
+            { id: 3, name: 'Item 3', value: Math.random() * 100 },
+            { id: 4, name: 'Item 4', value: Math.random() * 100, '500kb': 'A'.repeat(500 * 1024) },
         ],
         timestamp: new Date().toISOString(),
         metadata: {
