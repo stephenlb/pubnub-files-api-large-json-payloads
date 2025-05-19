@@ -15,6 +15,8 @@ function PubNubFilesApp() {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('');
     const [alertSeverity, setAlertSeverity] = React.useState('info');
+    const uploadTimeRef = React.useRef(null);
+    const [latency, setLatency] = React.useState(null);
     
     // PubNub instance and constants
     const pubnub = React.useMemo(() => {
@@ -63,6 +65,10 @@ function PubNubFilesApp() {
             // Display file content
             setDownloadStatus('File downloaded successfully:');
             setFileContent(jsonData);
+            if (uploadTimeRef.current) {
+                const latencyMs = Date.now() - uploadTimeRef.current;
+                setLatency(latencyMs);
+            }
             
             console.log('File downloaded successfully:', jsonData);
         } catch (error) {
@@ -104,6 +110,8 @@ function PubNubFilesApp() {
     const handleUpload = async () => {
         setUploadLoading(true);
         setUploadStatus(null);
+        uploadTimeRef.current = null;
+        setLatency(null);
         
         try {
             // Convert JSON to string and then to Blob (in-memory file)
@@ -127,6 +135,7 @@ function PubNubFilesApp() {
             });
             
             console.log('File uploaded successfully:', result);
+            uploadTimeRef.current = Date.now();
             setUploadStatus({
                 success: true,
                 id: result.id,
@@ -263,6 +272,11 @@ function PubNubFilesApp() {
                             key: "content-pre"
                         }, 
                             JSON.stringify(fileContent, null, 2)
+                        )
+                    ),
+                    latency !== null && React.createElement(Box, { mt: 2, key: "latency-box" },
+                        React.createElement(Typography, { variant: "body2", color: "text.secondary", key: "latency-text" },
+                            `Latency: ${latency} ms`
                         )
                     )
                 ])
