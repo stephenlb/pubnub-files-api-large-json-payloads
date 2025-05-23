@@ -21,8 +21,8 @@ function PubNubFilesApp() {
     // PubNub instance and constants
     const pubnub = React.useMemo(() => {
         return new PubNub({
-            publishKey: 'demo-36',
-            subscribeKey: 'demo-36',
+            publishKey: 'pub-c-02bce7d3-5fce-4c8f-b93e-bacb8f9e02f5',
+            subscribeKey: 'sub-c-126da732-8546-11e8-8d65-6a72d609577c',
             userId: 'files-demo-user-' + new Date().getTime()
         });
     }, []);
